@@ -5,11 +5,11 @@ import Link from 'next/link'
 import 'react-toastify/dist/ReactToastify.css'
 import ToastProvider from '@/providers/toast.provider'
 import NextAuthProvider from '@/providers/next-auth-provider';
+import Nav from '@/components/nav'
 
 const inter = Inter({ subsets: ['latin'] })
 
-import IconUser from '@/icons/user';
-import LoginBtn from '@/components/login-btn';
+
 
 export const metadata = {
   title: 'Create Next App',
@@ -22,26 +22,26 @@ export default function RootLayout({ children, }: {
 
   return (
     <html lang="en" className="h-full">
-      <body className={`${inter.className} h-full flex flex-col bg-gray-100`}>
+      <body className={`${inter.className} h-full bg-white`}>
         <NextAuthProvider>
-        <ToastProvider>
-          <header className="flex justify-between border-b shadow bg-white">
-            <Link href={'/'} className="font-bold py-3 px-3 hover:bg-blue-100">
-                Home
-            </Link>
-          </header>
-          <main className="h-full overflow-y-auto">
-              {children}
-          </main>
-          <nav className="mt-auto flex md:hidden justify-evenly border-t bg-white">
-            <Link href={'/'} className="inline-flex items-center justify-center py-2 px-2 grow font-semibold text-sm hover:bg-blue-100">
-                Shop
-            </Link>
-            <Link href={'/account'} className="inline-flex items-center justify-center py-2 px-2 grow font-semibold text-sm hover:bg-blue-100">
-                Account
-            </Link>
-          </nav>
-        </ToastProvider>
+          <ToastProvider>
+            <div className="h-full flex flex-col md:flex-row-reverse">
+              <div className="grow overflow-y-auto">
+                <div>Some text about banner</div>
+                <header className="flex justify-between border-b shadow sticky top-0 bg-white">
+                  <Link href={'/'} className="font-bold py-3 px-3 hover:bg-blue-100">
+                    Home
+                  </Link>
+                </header>
+                <main className="">
+                  {children}
+                </main>
+              </div>
+              <div className="bg-gray-100">
+              <Nav />
+              </div>
+            </div>
+          </ToastProvider>
         </NextAuthProvider>
       </body>
     </html>
