@@ -1,5 +1,5 @@
 import type { GetServerSidePropsContext, NextApiRequest, NextApiResponse } from 'next'
-import type { NextAuthOptions as NextAuthConfig } from 'next-auth'
+import type { NextAuthOptions } from 'next-auth'
 import { getServerSession } from 'next-auth'
 
 import Google from 'next-auth/providers/google'
@@ -8,12 +8,20 @@ import { MongoDBAdapter } from '@auth/mongodb-adapter'
 import clientPromise from '@/lib/mongodb'
 
 // Read more at: https://next-auth.js.org/getting-started/typescript#module-augmentation
-declare module 'next-auth/jwt' {
-    interface JWT {
-        /** The user's role. */
-        userRole?: 'admin'
-    }
-}
+// declare module 'next/auth' {
+//     interface Session {
+//     user: DefaultUser & {
+//       id: string;
+//     };
+//   }
+// }
+
+// declare module 'next-auth/jwt' {
+//     interface JWT {
+//         /** The user's role. */
+//         userRole?: 'admin'
+//     }
+// }
 
 export const config = {
     providers: [
@@ -31,12 +39,24 @@ export const config = {
     ],
     adapter: MongoDBAdapter(clientPromise),
     callbacks: {
-        async jwt({ token }) {
-            token.userRole = 'admin'
+        jwt: async ({ user, token }) => {
+            if(user){
+                token.userRole = 'admin'
+                token.uid = user.id;
+            }
             return token
         },
+        session: async ({ session, token }) => {
+          if (session?.user) {
+            session.user.id = token.uid;
+          }
+          return session;
+        },
     },
-} satisfies NextAuthConfig
+    session: {
+        strategy: 'jwt',
+    },
+} satisfies NextAuthOptions
 
 // Helper function to get session without passing config every time
 // https://next-auth.js.org/configuration/nextjs#getserversession
