@@ -2,10 +2,13 @@
 
 import AuthCard from '@/components/auth-card';
 import Loading from '@/components/loading';
+import Loader from '@/components/loader';
 import axios from 'axios';
 import { useSession } from 'next-auth/react'
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { formatDate } from '@/utils/date';
+
 
 export default function Notes() {
     const { data: session, status } = useSession();
@@ -31,24 +34,30 @@ export default function Notes() {
         if (status == 'authenticated' && session && session.user) {
             loadNotes();
         }
-    }, [status]);
+    }, [status, session]);
 
     if (!session) {
-        return status == 'loading' ? <Loading /> : <AuthCard />
+        return status == 'loading' ? <div className="my-5 py-5"><Loader /></div> : <AuthCard />
     }
 
     return (
         <div>
             <Link href={'/notes/create'}>Create New</Link>
 
-            {notes.length ? notes.map((note: any) => (
-                <div key={note._id}>
-                    <Link href={`/notes/${note._id}`}>
-                        <h2>{note.title}</h2>
-                    </Link>
-                </div>
-            )) : (isLoading ? <div>Loading..</div> : <div>Create a note</div>)}
+            <div className="mb-5 pb-5">
 
+                {notes.length ? notes.map((note: any) => (
+                    <div key={note._id}>
+                        <Link href={`/notes/${note._id}`} className="flex items-center justify-between border-b px-3 py-2 select-none bg-white hover:bg-gray-50">
+                            <span>
+                                <span className="block leading-none">{note.title}</span>
+                                <small className="text-xs">{formatDate(note.updatedAt)}</small>
+                            </span>
+                        </Link>
+                    </div>
+                )) : (isLoading ? <div>Loading..</div> : <div>Create a note</div>)}
+
+            </div>
         </div>
     )
 }

@@ -42,12 +42,9 @@ export default function NoteByID({ params }: { params: { id: string } }) {
     }, [status]);
 
     return (
-        <section className="px-4 py-4">
+        <section className="px-4 py-4 h-full">
             {isLoading ? <div>Lading</div> : (!canView ? <div>This note is private</div> : (
-                <div>
-                    <h1>Edit</h1>
-                    <NoteForm _id={note?._id} title={note?.title} content={note?.content} isPublic={note?.isPublic} />
-                </div>
+                <NoteForm _id={note?._id} title={note?.title} content={note?.content} isPublic={note?.isPublic} />
             ))}
         </section>
     )

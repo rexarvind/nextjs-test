@@ -19,13 +19,13 @@ export default function Nav(){
     ];
 
     return (
-        <nav className="flex md:flex-col md:w-20 py-1 justify-evenly text-xs">
+        <nav className="flex md:flex-col md:w-20 justify-evenly text-xs">
           {links.map(link => (
             <Link key={link._id} href={link.href} className={`${navItemClass}`}>
               <span className={`${(pathname === link.href) ? 'bg-blue-100 group-hover:bg-blue-200' : 'group-hover:bg-gray-200'} ${navItemIconWrapperClass}`}>
                 <link.icon filled={(pathname && pathname === link.href) ? 1 : 0} className="h-6 w-6" />
               </span>
-              <span className="w-full truncate leading-none">{link.title}</span>
+              <span className="w-full truncate">{link.title}</span>
             </Link>
           ))}
         </nav>

@@ -26,14 +26,14 @@ export default function RootLayout({ children, }: {
         <NextAuthProvider>
           <ToastProvider>
             <div className="h-full flex flex-col md:flex-row-reverse">
-              <div className="grow overflow-y-auto">
-                <div>Some text about banner</div>
+              <div className="grow flex flex-col overflow-y-auto">
+                <div className="px-3 py-1 text-sm text-center bg-gray-800 text-white">Android App Coming Soon</div>
                 <header className="flex justify-between border-b shadow sticky top-0 bg-white">
                   <Link href={'/'} className="font-bold py-3 px-3 hover:bg-blue-100">
                     Home
                   </Link>
                 </header>
-                <main className="">
+                <main className="h-full">
                   {children}
                 </main>
               </div>

@@ -15,21 +15,8 @@ export default function NotesCreate() {
   }
 
   return (
-    <div>
-      <Link href={'/notes'}>Back</Link>
-    <NoteForm title={''} content={''} isPublic={false} />
-
-{/*
-      <form onSubmit={handleSave}>
-        <input type="text" name="title" value={title} onChange={e => setTitle(e.target.value)} placeholder="Title" className="border" />
-        <textarea name="content" value={content} onChange={e => setContent(e.target.value)} placeholder="Write something..." className="border"></textarea>
-        <input type="checkbox" defaultChecked={isPublic} name="isPublic" onChange={() => setIsPublic((state) => !state)} />
-
-        {isSaving ? <div>loading</div> :
-          <button type="submit" className="border">Save</button>
-        }
-      </form>
-*/}
+    <div className="px-3 py-3 h-full">
+      <NoteForm title={''} content={''} isPublic={false} />
     </div>
   )
 }

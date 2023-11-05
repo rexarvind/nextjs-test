@@ -15,7 +15,9 @@ export default function Account() {
 
     return (
         <div>
-            <img src={session.user?.image || 'https://dummyimage.com/96'} width={96} height={96} alt="profile imag"></img>
+            <picture>
+                <img src={session.user?.image || 'https://dummyimage.com/96'} width={96} height={96} alt="profile imag"></img>
+            </picture>
             {session.user?.name}
             Secret account page
             <br />

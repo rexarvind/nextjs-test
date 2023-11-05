@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 interface NoteFormProps {
     _id?: String;
@@ -16,6 +17,9 @@ export default function NoteForm(props: NoteFormProps){
     const [content, setContent] = useState<any>(props.content || '')
     const [isPublic, setIsPublic] = useState<any>(props.isPublic || false)
     const [_id, setId] = useState(props._id || '')
+
+    const router = useRouter();
+
 
     function save(e: FormEvent<HTMLFormElement>){
         e.preventDefault();
@@ -48,20 +52,24 @@ export default function NoteForm(props: NoteFormProps){
     }
 
     return (
-        <form onSubmit={save}>
-            <div>
-                <input type="text" name="title" value={title} onChange={e => setTitle(e.target.value)} placeholder="Title" className="w-full border" />
+        <form onSubmit={save} className="h-full flex flex-col">
+            <div className="h-full flex flex-col">
+                <div className="mb-2">
+                    <input type="text" name="title" value={title} onChange={e => setTitle(e.target.value)} placeholder="Title" className="block w-full border px-3 py-2 " />
+                </div>
+                <div className="mb-2 h-full">
+                    <textarea rows={5} name="content" value={content} onChange={e => setContent(e.target.value)} placeholder="Write something..." className="block w-full h-full border px-3 py-2"></textarea>
+                </div>
+                <div className="mb-2">
+                    <div className="flex items-center gap-2">
+                        <input id="note-create-public" type="checkbox" defaultChecked={isPublic} name="isPublic" onChange={() => setIsPublic((state:any) => !state)} />
+                        <label htmlFor="note-create-public" className="select-none">Make it public</label>
+                    </div>
+                </div>
             </div>
-            <div>
-                <textarea rows={5} name="content" value={content} onChange={e => setContent(e.target.value)} placeholder="Write something..." className="w-full border"></textarea>
-            </div>
-            <div>
-                <input id="note-create-public" type="checkbox" defaultChecked={isPublic} name="isPublic" onChange={() => setIsPublic((state:any) => !state)} />
-                <label htmlFor="note-create-public" className="select-none">Make it public</label>
-            </div>
-            <div>
-                <button type="button" className="border select-none">Cancel</button>
-                <button type="submit" className="border select-none">Save</button>
+            <div className="flex mt-auto">
+                <button type="button" onClick={() => router.back() } className="w-6/12 px-2 py-2 font-semibold select-none bg-gray-400 text-white">Cancel</button>
+                <button type="submit" className="w-6/12 px-2 py-2 font-semibold select-none bg-blue-500 text-white">Save</button>
             </div>
         </form>
     )
