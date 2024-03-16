@@ -6,6 +6,7 @@ import Google from 'next-auth/providers/google'
 
 import { MongoDBAdapter } from '@auth/mongodb-adapter'
 import clientPromise from '@/lib/mongodb'
+// import axios from 'axios'
 
 // Read more at: https://next-auth.js.org/getting-started/typescript#module-augmentation
 // declare module 'next/auth' {
@@ -44,12 +45,24 @@ export const config = {
                 token.userRole = 'admin'
                 token.uid = user.id;
             }
+            // console.log('JWT => ', token);
             return token
         },
         session: async ({ session, token }) => {
           if (session?.user) {
             session.user.id = token.uid;
           }
+          // axios.post('https://client90.000webhostapp.com/api/v1/auth/sync/', {
+          //   uid: token.uid,
+          //   name: token.name,
+          //   email: token.email,
+          //   image: token.picture,
+          // }).then(function(res){
+          //   console.log('SUCCESS => ', res.data);
+          // }).catch(function(err){
+          //   console.log('ERROR => ', err.response.data);
+          // });
+          // console.log('SESSION => ', session, token);
           return session;
         },
     },
